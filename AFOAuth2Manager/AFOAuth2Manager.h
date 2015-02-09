@@ -96,7 +96,7 @@
  @param password The password used for authentication
  @param scope The authorization scope
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the request operation, and the OAuth credential returned by the server.
- @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error returned from the server.
+ @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes takes two arguments: the request operation, and the error returned from the server.
  */
 - (AFHTTPRequestOperation *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                    username:(NSString *)username
@@ -111,7 +111,7 @@
  @param URLString The URL string used to create the request URL.
  @param scope The authorization scope
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the request operation, and the OAuth credential returned by the server.
- @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error returned from the server.
+ @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes two arguments: the request operation, and the error returned from the server.
  */
 - (AFHTTPRequestOperation *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                       scope:(NSString *)scope
@@ -124,7 +124,7 @@
  @param URLString The URL string used to create the request URL.
  @param refreshToken The OAuth refresh token
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the request operation, and the OAuth credential returned by the server.
- @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error returned from the server.
+ @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes two arguments: the request operation, and the error returned from the server.
  */
 - (AFHTTPRequestOperation *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                refreshToken:(NSString *)refreshToken
@@ -138,7 +138,7 @@
  @param code The authorization code
  @param uri The URI to redirect to after successful authentication
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the request operation, and the OAuth credential returned by the server.
- @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error returned from the server.
+ @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes two arguments: the request operation, and the error returned from the server.
  */
 - (AFHTTPRequestOperation *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                        code:(NSString *)code
@@ -152,7 +152,7 @@
  @param URLString The URL string used to create the request URL.
  @param parameters The parameters to be encoded and set in the request HTTP body.
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the request operation, and the OAuth credential returned by the server.
- @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error returned from the server.
+ @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes two arguments: the request operation, and the error returned from the server.
  */
 - (AFHTTPRequestOperation *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                  parameters:(NSDictionary *)parameters
