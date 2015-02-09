@@ -227,7 +227,7 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
                 NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"No credentials were found in response", @"AFOAuth2Manager", nil)};
                 NSError *error = [NSError errorWithDomain:AFURLResponseSerializationErrorDomain
                                                      code:NSURLErrorCannotDecodeContentData
-                                                 userInfo:userInfo]
+                                                 userInfo:userInfo];
                 failure(operation, error);
             }
 
