@@ -17,10 +17,10 @@ AFOAuth2Manager *OAuth2Manager =
                                           username:@"username"
                                           password:@"password"
                                              scope:@"email"
-                                           success:^(AFOAuthCredential *credential) {
+                                           success:^(AFHTTPRequestOperation *operation, AFOAuthCredential *credential) {
                                                NSLog(@"Token: %@", credential.accessToken);
                                            }
-                                           failure:^(NSError *error) {
+                                           failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                                                NSLog(@"Error: %@", error);
                                            }];
 ```
