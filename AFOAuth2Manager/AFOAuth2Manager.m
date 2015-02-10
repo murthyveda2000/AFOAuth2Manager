@@ -214,6 +214,18 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
                                                         success:(void (^)(AFHTTPRequestOperation *operation, AFOAuthCredential *credential))success
                                                         failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
 {
+    AFHTTPRequestOperation *operation = [self HTTPrequestOperationUsingOAuthWithURLString:URLString
+                                                                               parameters:parameters
+                                                                                  success:success
+                                                                                  failure:failure];
+    [self.operationQueue addOperation:operation];
+}
+
+- (AFHTTPRequestOperation *)HTTPrequestOperationUsingOAuthWithURLString:(NSString *)URLString
+                                                             parameters:(NSDictionary *)parameters
+                                                                success:(void (^)(AFHTTPRequestOperation *operation, AFOAuthCredential *credential))success
+                                                                failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+{
     NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
     if (!self.useHTTPBasicAuthentication) {
         mutableParameters[@"client_id"] = self.clientID;
@@ -221,7 +233,22 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
     }
     parameters = [NSDictionary dictionaryWithDictionary:mutableParameters];
 
-    AFHTTPRequestOperation *requestOperation = [self POST:URLString parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    NSError *serializationError = nil;
+    NSMutableURLRequest *request = [self.requestSerializer requestWithMethod:@"POST"
+                                                                   URLString:[[NSURL URLWithString:URLString relativeToURL:self.baseURL] absoluteString]
+                                                                  parameters:parameters
+                                                                       error:&serializationError];
+
+    if (serializationError) {
+        if (failure) {
+            dispatch_async(self.completionQueue ?: dispatch_get_main_queue(), ^{
+                failure(nil, serializationError);
+            });
+        }
+        return nil;
+    }
+
+    return [self HTTPRequestOperationWithRequest:request success:^(AFHTTPRequestOperation *operation, id responseObject) {
         if (!responseObject) {
             if (failure) {
                 NSDictionary *userInfo = @{NSLocalizedDescriptionKey: NSLocalizedStringFromTable(@"No credentials were found in response", @"AFOAuth2Manager", nil)};
@@ -273,8 +300,6 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
             failure(operation, error);
         }
     }];
-
-    return requestOperation;
 }
 
 @end
