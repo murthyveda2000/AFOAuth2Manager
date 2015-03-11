@@ -219,6 +219,8 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
                                                                                   success:success
                                                                                   failure:failure];
     [self.operationQueue addOperation:operation];
+
+    return operation;
 }
 
 - (AFHTTPRequestOperation *)HTTPrequestOperationUsingOAuthWithURLString:(NSString *)URLString
