@@ -102,7 +102,7 @@
                                                      username:(NSString *)username
                                                      password:(NSString *)password
                                                         scope:(NSString *)scope
-                                                      success:(void (^)(AFOAuthCredential *credential))success
+                                                      success:(void (^)(AFOAuthCredential *credential, id responseObject))success
                                                       failure:(void (^)(NSError *error))failure
 {
     NSParameterAssert(username);
@@ -121,7 +121,7 @@
 
 - (NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                                         scope:(NSString *)scope
-                                                      success:(void (^)(AFOAuthCredential *credential))success
+                                                      success:(void (^)(AFOAuthCredential *credential, id responseObject))success
                                                       failure:(void (^)(NSError *error))failure
 {
     NSParameterAssert(scope);
@@ -136,7 +136,7 @@
 
 - (NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                                  refreshToken:(NSString *)refreshToken
-                                                      success:(void (^)(AFOAuthCredential *credential))success
+                                                      success:(void (^)(AFOAuthCredential *credential, id responseObject))success
                                                       failure:(void (^)(NSError *error))failure
 {
     NSParameterAssert(refreshToken);
@@ -152,7 +152,7 @@
 - (NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                                          code:(NSString *)code
                                                   redirectURI:(NSString *)uri
-                                                      success:(void (^)(AFOAuthCredential *credential))success
+                                                      success:(void (^)(AFOAuthCredential *credential, id responseObject))success
                                                       failure:(void (^)(NSError *error))failure
 {
     NSParameterAssert(code);
@@ -169,7 +169,7 @@
 
 - (NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                                    parameters:(NSDictionary *)parameters
-                                                      success:(void (^)(AFOAuthCredential *credential))success
+                                                      success:(void (^)(AFOAuthCredential *credential, id responseObject))success
                                                       failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
@@ -220,7 +220,7 @@
         }
 
         if (success) {
-            success(credential);
+            success(credential, responseObject);
         }
     } failure:^(__unused NSURLSessionDataTask *task, NSError *error) {
         if (failure) {
