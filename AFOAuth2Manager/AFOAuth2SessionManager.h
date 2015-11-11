@@ -32,6 +32,8 @@
  */
 @interface AFOAuth2SessionManager : AFHTTPSessionManager
 
+NS_ASSUME_NONNULL_BEGIN
+
 ///------------------------------------------
 /// @name Accessing OAuth 2 Client Properties
 ///------------------------------------------
@@ -64,7 +66,7 @@
 
  @return The newly-initialized OAuth 2 client
  */
-+ (instancetype)clientWithBaseURL:(NSURL *)url
++ (instancetype)clientWithBaseURL:(nullable NSURL *)url
                          clientID:(NSString *)clientID
                            secret:(NSString *)secret;
 
@@ -78,10 +80,10 @@
 
  @return The newly-initialized OAuth 2 client
  */
-+ (instancetype)clientWithBaseURL:(NSURL *)url
++ (instancetype)clientWithBaseURL:(nullable NSURL *)url
                          clientID:(NSString *)clientID
                            secret:(NSString *)secret
-             sessionConfiguration:(NSURLSessionConfiguration *)configuration;
+             sessionConfiguration:(nullable NSURLSessionConfiguration *)configuration;
 
 
 /**
@@ -93,7 +95,7 @@
 
  @return The newly-initialized OAuth 2 client
  */
-- (instancetype)initWithBaseURL:(NSURL *)url
+- (instancetype)initWithBaseURL:(nullable NSURL *)url
                        clientID:(NSString *)clientID
                          secret:(NSString *)secret;
 
@@ -107,10 +109,10 @@
 
  @return The newly-initialized OAuth 2 client
  */
-- (instancetype)initWithBaseURL:(NSURL *)url
+- (instancetype)initWithBaseURL:(nullable NSURL *)url
                        clientID:(NSString *)clientID
                          secret:(NSString *)secret
-           sessionConfiguration:(NSURLSessionConfiguration *)configuration;
+           sessionConfiguration:(nullable NSURLSessionConfiguration *)configuration;
 
 ///---------------------
 /// @name Authenticating
@@ -126,7 +128,7 @@
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the OAuth credential returned by the server, and the response object created by the client response serializer.
  @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error returned from the server.
  */
-- (NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
+- (nullable NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                                      username:(NSString *)username
                                                      password:(NSString *)password
                                                         scope:(NSString *)scope
@@ -141,7 +143,7 @@
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the OAuth credential returned by the server, and the response object created by the client response serializer.
  @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error returned from the server.
  */
-- (NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
+- (nullable NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                                         scope:(NSString *)scope
                                                       success:(void (^)(AFOAuthCredential *credential, id responseObject))success
                                                       failure:(void (^)(NSError *error))failure;
@@ -154,7 +156,7 @@
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the OAuth credential returned by the server, and the response object created by the client response serializer.
  @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error returned from the server.
  */
-- (NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
+- (nullable NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                                  refreshToken:(NSString *)refreshToken
                                                       success:(void (^)(AFOAuthCredential *credential, id responseObject))success
                                                       failure:(void (^)(NSError *error))failure;
@@ -168,7 +170,7 @@
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the OAuth credential returned by the server, and the response object created by the client response serializer.
  @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error returned from the server.
  */
-- (NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
+- (nullable NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                                          code:(NSString *)code
                                                   redirectURI:(NSString *)uri
                                                       success:(void (^)(AFOAuthCredential *credential, id responseObject))success
@@ -182,7 +184,7 @@
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the OAuth credential returned by the server, and the response object created by the client response serializer.
  @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error returned from the server.
  */
-- (NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
+- (nullable NSURLSessionDataTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                                    parameters:(NSDictionary *)parameters
                                                       success:(void (^)(AFOAuthCredential *credential, id responseObject))success
                                                       failure:(void (^)(NSError *error))failure;
@@ -195,9 +197,11 @@
  @param success A block object to be executed when the request operation finishes successfully. This block has no return value and takes two arguments: the OAuth credential returned by the server, and the response object created by the client response serializer.
  @param failure A block object to be executed when the request operation finishes unsuccessfully, or that finishes successfully, but encountered an error while parsing the response data. This block has no return value and takes a single argument: the error returned from the server.
  */
-- (NSURLSessionDataTask *)dataTaskUsingOAuthWithURLString:(NSString *)URLString
+- (nullable NSURLSessionDataTask *)dataTaskUsingOAuthWithURLString:(NSString *)URLString
                                                parameters:(NSDictionary *)parameters
                                                   success:(void (^)(AFOAuthCredential *credential, id responseObject))success
                                                   failure:(void (^)(NSError *error))failure;
+
+NS_ASSUME_NONNULL_END
 
 @end
