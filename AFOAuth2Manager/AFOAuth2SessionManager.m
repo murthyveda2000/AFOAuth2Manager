@@ -172,6 +172,21 @@
                                                       success:(void (^)(AFOAuthCredential *credential, id responseObject))success
                                                       failure:(void (^)(NSError *error))failure
 {
+    NSURLSessionDataTask *task = [self dataTaskUsingOAuthWithURLString:URLString
+                                                            parameters:parameters
+                                                               success:success
+                                                               failure:failure];
+
+    [task resume];
+
+    return task;
+}
+
+- (NSURLSessionDataTask *)dataTaskUsingOAuthWithURLString:(NSString *)URLString
+                                               parameters:(NSDictionary *)parameters
+                                                  success:(void (^)(AFOAuthCredential *credential, id responseObject))success
+                                                  failure:(void (^)(NSError *error))failure
+{
     NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
     if (!self.useHTTPBasicAuthentication) {
         mutableParameters[@"client_id"] = self.clientID;
