@@ -194,7 +194,7 @@
     }
     parameters = [NSDictionary dictionaryWithDictionary:mutableParameters];
 
-    NSURLSessionDataTask *task = [self POST:URLString parameters:parameters success:^(__unused NSURLSessionDataTask *task, id responseObject) {
+    NSURLSessionDataTask *task = [self POST:URLString parameters:parameters progress:nil success:^(__unused NSURLSessionDataTask *task, id responseObject) {
         if (!responseObject) {
             if (failure) {
                 failure(nil);
