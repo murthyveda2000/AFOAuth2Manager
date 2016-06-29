@@ -143,7 +143,7 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
                                                  username:(NSString *)username
                                                  password:(NSString *)password
                                                     scope:(NSString *)scope
-                                                  success:(void (^)(AFOAuthCredential * _Nonnull))success
+                                                  success:(void (^)(AFOAuthCredential * _Nonnull, id responseObject))success
                                                   failure:(void (^)(NSError * _Nonnull))failure {
     NSParameterAssert(username);
     NSParameterAssert(password);
@@ -162,7 +162,7 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
 
 - (NSURLSessionTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                                     scope:(NSString *)scope
-                                                  success:(void (^)(AFOAuthCredential * _Nonnull))success
+                                                  success:(void (^)(AFOAuthCredential * _Nonnull, id responseObject))success
                                                   failure:(void (^)(NSError * _Nonnull))failure {
 
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
@@ -178,7 +178,7 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
 
 - (NSURLSessionTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                              refreshToken:(NSString *)refreshToken
-                                                  success:(void (^)(AFOAuthCredential *credential))success
+                                                  success:(void (^)(AFOAuthCredential *credential, id responseObject))success
                                                   failure:(void (^)(NSError *error))failure
 {
     NSParameterAssert(refreshToken);
@@ -194,7 +194,7 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
 - (NSURLSessionTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                                      code:(NSString *)code
                                               redirectURI:(NSString *)uri
-                                                  success:(void (^)(AFOAuthCredential *credential))success
+                                                  success:(void (^)(AFOAuthCredential *credential, id responseObject))success
                                                   failure:(void (^)(NSError *error))failure
 {
     NSParameterAssert(code);
@@ -211,7 +211,22 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
 
 - (NSURLSessionTask *)authenticateUsingOAuthWithURLString:(NSString *)URLString
                                                parameters:(NSDictionary *)parameters
-                                                  success:(void (^)(AFOAuthCredential *credential))success
+                                                  success:(void (^)(AFOAuthCredential *credential, id responseObject))success
+                                                  failure:(void (^)(NSError *error))failure
+{
+    NSURLSessionDataTask *task = [self dataTaskUsingOAuthWithURLString:URLString
+                                                            parameters:parameters
+                                                               success:success
+                                                               failure:failure];
+
+    [task resume];
+
+    return task;
+}
+
+- (NSURLSessionDataTask *)dataTaskUsingOAuthWithURLString:(NSString *)URLString
+                                               parameters:(NSDictionary *)parameters
+                                                  success:(void (^)(AFOAuthCredential *credential, id responseObject))success
                                                   failure:(void (^)(NSError *error))failure
 {
     NSMutableDictionary *mutableParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
@@ -221,7 +236,7 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
     }
     parameters = [NSDictionary dictionaryWithDictionary:mutableParameters];
 
-    NSURLSessionTask *task;
+    NSURLSessionDataTask *task;
     task = [self POST:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (!responseObject) {
             if (failure) {
@@ -260,7 +275,7 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
         }
 
         if (success) {
-            success(credential);
+            success(credential, responseObject);
         }
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
