@@ -22,6 +22,7 @@
 
 #import "AFOAuth2Manager.h"
 #import "AFOAuthCredential.h"
+#import "AFHTTPSessionManager+OAuth2.h"
 
 NSString * const kAFOAuthClientCredentialsGrantType = @"client_credentials";
 NSString * const kAFOAuthPasswordCredentialsGrantType = @"password";
@@ -236,8 +237,8 @@ static NSError * AFErrorFromRFC6749Section5_2Error(id object) {
     }
     parameters = [NSDictionary dictionaryWithDictionary:mutableParameters];
 
-    NSURLSessionDataTask *task;
-    task = [self POST:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    __block NSURLSessionDataTask *task = nil;
+    task = [self dataTaskWithHTTPMethod:@"POST" URLString:URLString parameters:parameters uploadProgress:nil downloadProgress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         if (!responseObject) {
             if (failure) {
                 failure(nil);
